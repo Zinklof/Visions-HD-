@@ -18,7 +18,7 @@ public class ComputerScreen : MonoBehaviour
     {
         computerHasBeenAproached = true;
         canvas.alpha = 1f;
-        yield return new WaitForSecondsRealtime(2.5f);
+        yield return new WaitForSecondsRealtime(4f);
         canvas.alpha = 0f;
     }
 }
