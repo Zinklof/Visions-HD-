@@ -44,9 +44,8 @@ public class PlayerMovement : MonoBehaviour
 
         //move player
         moveDirection.y = gravity;
-        if (Input.GetKey(KeyCode.LeftShift) && stamina > 0.5f)
-            controller.Move(moveDirection * sprintSpeed * Time.deltaTime);
-        else
+        //if (Input.GetKey(KeyCode.LeftShift) && stamina > 0.5f)
+            //controller.Move(moveDirection * sprintSpeed * Time.deltaTime);
             controller.Move(moveDirection * playerSpeed * Time.deltaTime);
     }
 
@@ -112,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         StaminaDrain();
-        SprintCheck();
+        //SprintCheck();
         SprintBarClear();
 
         //if (playerRunning == true && stamina > 0.5f)
