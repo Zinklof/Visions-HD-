@@ -1,0 +1,78 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+using UnityEngine.Profiling;
+using UnityEngine.Rendering.HighDefinition;
+
+public class DebugSystemInfo : MonoBehaviour
+{
+    public TMP_Text text;
+    public TMP_Text OSText;
+    public TMP_Text basicText;
+    CanvasGroup DebugMenuCanvas;
+
+        public int CountPlayers()
+        {
+            int playerCounter = 0;
+            GameObject[] playerCount = GameObject.FindGameObjectsWithTag("Player"); //finds all objects tagged as a player
+            
+            foreach(GameObject go in playerCount) //adds one to player counter for each player present in scene
+            {
+                playerCounter++;
+            }
+
+            return playerCounter;
+        }
+        public int CountLights()
+        {
+            int lightCounter = 0;
+            GameObject[] lightCount = GameObject.FindGameObjectsWithTag("Light"); //finds all objects tagged as a light/light emitting object
+
+            foreach (GameObject go in lightCount) //adds one to light counter for each light present in the scene
+            {
+                lightCounter++;
+            }
+
+            return lightCounter;
+        }
+    public int CountCameras()
+    {
+        int cameraCounter = 0;
+        GameObject[] cameraCount = GameObject.FindGameObjectsWithTag("Camera"); //finds all objects tagged as a camera
+
+        foreach (GameObject go in cameraCount) //adds one to camera counter for each camera present in the scene
+        {
+            cameraCounter++;
+        }
+
+        cameraCounter++; //accounts for the fact that the main camera must have the tag "MainCamera" in some scripts
+        return cameraCounter;
+    }
+
+    void SystemStats()
+    {
+        string processor = SystemInfo.processorType; //gets processor name
+        float clockSpeedMath = SystemInfo.processorFrequency * 0.001f; //gets processor base clock in MGHz and trasnferes to GHz
+        string clockspeed = clockSpeedMath.ToString(); //turns the prevous math into a string
+        string coreCount = SystemInfo.processorCount.ToString(); //gets core count including digital cores
+
+        string totalAllocatedRam = "" + Mathf.Round(Profiler.GetTotalAllocatedMemoryLong() * 0.000001f) * 0.01f + " GB,"; // gets total allocated ram in KB and transfers to GB with two decimal places
+        string totalRam = "" + Mathf.Round(Profiler.GetTotalReservedMemoryLong() * 0.000001f) * 0.01f + " GB,"; // gets total reserved ram in KB and transfers to GB with two decimal places
+        string unusedRAM = "" + Mathf.Round(Profiler.GetTotalUnusedReservedMemoryLong() * 0.000001f) * 0.01f + " GB"; // gets unsed reserved ram in KB and transfers to GB with two decimal places
+
+        string ram = "" + SystemInfo.systemMemorySize * 0.001f + " GB,"; // gets systems total ram
+        string GPUram = "" + SystemInfo.graphicsMemorySize * 0.001f + " GB,"; // gets gpus total ram
+
+        string GPU = SystemInfo.graphicsDeviceName; //gets gpu name
+
+        text.text = (processor + "<br>" + clockspeed + " (base clock speed in GHz)" + "<br>" + coreCount + " (includes Digital Cores)" + "<br> <br>" + ram + " " + totalAllocatedRam + " " + totalRam + " " + unusedRAM + " (Total Ram, allocated ram, reserved ram, unused ram <br>" + GPUram + "<br> <br>" + GPU); // displayes aformentioned statistics on debug menu
+    }
+
+    void Update()
+    {
+        SystemStats();
+        OSText.text = (SystemInfo.operatingSystem.ToString()); // gets OS
+        basicText.text = (CountPlayers().ToString() + "<br>" + CountLights().ToString() + "<br>" + CountCameras().ToString()); //displays player, light, and camera count
+    }
+}

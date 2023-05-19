@@ -114,9 +114,4 @@ public class FlashLightScript : MonoBehaviour
             lightTwo.range = 0f;
         }
     }
-
-    void Start()
-    {
-        Application.targetFrameRate = 60;
-    }
 }

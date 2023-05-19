@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -301915896098109730}
   m_Layer: 0
   m_Name: GlowstickPrefab
-  m_TagString: Untagged
+  m_TagString: Light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -249,6 +249,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   glowstick: 1
+  dogJump: 0
+  freahm: {fileID: 0}
 --- !u!1 &6757116938852467501
 GameObject:
   m_ObjectHideFlags: 0
