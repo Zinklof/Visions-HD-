@@ -10,32 +10,34 @@ public class DebugSystemInfo : MonoBehaviour
     public TMP_Text text;
     public TMP_Text OSText;
     public TMP_Text basicText;
-    CanvasGroup DebugMenuCanvas;
+    public CanvasGroup DebugMenuCanvas;
 
-        public int CountPlayers()
+    private bool menuOpen = false;
+
+    public int CountPlayers()
+    {
+        int playerCounter = 0;
+        GameObject[] playerCount = GameObject.FindGameObjectsWithTag("Player"); //finds all objects tagged as a player
+
+        foreach (GameObject go in playerCount) //adds one to player counter for each player present in scene
         {
-            int playerCounter = 0;
-            GameObject[] playerCount = GameObject.FindGameObjectsWithTag("Player"); //finds all objects tagged as a player
-            
-            foreach(GameObject go in playerCount) //adds one to player counter for each player present in scene
-            {
-                playerCounter++;
-            }
-
-            return playerCounter;
+            playerCounter++;
         }
-        public int CountLights()
+
+        return playerCounter;
+    }
+    public int CountLights()
+    {
+        int lightCounter = 0;
+        GameObject[] lightCount = GameObject.FindGameObjectsWithTag("Light"); //finds all objects tagged as a light/light emitting object
+
+        foreach (GameObject go in lightCount) //adds one to light counter for each light present in the scene
         {
-            int lightCounter = 0;
-            GameObject[] lightCount = GameObject.FindGameObjectsWithTag("Light"); //finds all objects tagged as a light/light emitting object
-
-            foreach (GameObject go in lightCount) //adds one to light counter for each light present in the scene
-            {
-                lightCounter++;
-            }
-
-            return lightCounter;
+            lightCounter++;
         }
+
+        return lightCounter;
+    }
     public int CountCameras()
     {
         int cameraCounter = 0;
@@ -49,7 +51,19 @@ public class DebugSystemInfo : MonoBehaviour
         cameraCounter++; //accounts for the fact that the main camera must have the tag "MainCamera" in some scripts
         return cameraCounter;
     }
-
+    void OpenMenu() // misleading name it actually opens and closes the menu
+    {
+        if(menuOpen) // if menu already open then close
+        {
+            menuOpen = false;
+            DebugMenuCanvas.alpha = 0f;
+        }
+        else if(!menuOpen) // if menu closed then open
+        {
+            menuOpen = true;
+            DebugMenuCanvas.alpha = 1f;
+        }
+    }
     void SystemStats()
     {
         string processor = SystemInfo.processorType; //gets processor name
@@ -74,5 +88,10 @@ public class DebugSystemInfo : MonoBehaviour
         SystemStats();
         OSText.text = (SystemInfo.operatingSystem.ToString()); // gets OS
         basicText.text = (CountPlayers().ToString() + "<br>" + CountLights().ToString() + "<br>" + CountCameras().ToString()); //displays player, light, and camera count
+
+        if(Input.GetKeyUp(KeyCode.BackQuote) || Input.GetKeyUp(KeyCode.Tilde))
+        {
+            OpenMenu();
+        }
     }
 }

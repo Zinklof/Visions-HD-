@@ -10,10 +10,10 @@ public class MonsterDisapear : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(!dogJump)
+        if(!dogJump && other.gameObject.tag == "Player")
         gameObject.SetActive(false);
 
-        if (dogJump)
+        if (dogJump && other.gameObject.tag == "Player")
             StartCoroutine(FreahmJumpscare());
     }
 
